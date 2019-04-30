@@ -1,4 +1,4 @@
-package com.faire.dao;
+package com.faire.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class DbObjectsService {
 
-	private static List<CharacterSW> characterList = new ArrayList<>();
+	public static List<CharacterSW> characterList = new ArrayList<>();
 	private static long idCounter = 0;
 	private static Map<String, Integer> skillsMap = new HashMap();
 

@@ -1,4 +1,4 @@
-package com.faire.dao;
+package com.faire.model;
 
 import java.util.Map;
 

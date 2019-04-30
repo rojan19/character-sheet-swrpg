@@ -8,20 +8,22 @@ export default class Loader extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            characters: []
+            names: []
         }
-        this.getAllNames();
+        this.getAllCharacters();
     }
 
-    getAllNames() {
+    getAllCharacters() {
         CharacterDataService.getCharacterNames()
             .then(
                 response => {
                     console.log(response);
                     this.setState({
-                        characters: response.data
+                        names: response.data
                     });
+
                 }
+
             )
     }
 
@@ -30,13 +32,15 @@ export default class Loader extends React.Component {
             <div className="row mt-3">
                 <div className="col"></div>
                 {
-                    this.state.characters.map( (name) => {return(
+                    Object.values(this.state.names).map( (name) => {return(
                         <div className="col-1">
-                            <button className="btn btn-info" onClick={() => this.props.getCharacter(name)} key={name}>
+                            <button className="btn btn-info" onClick={() =>
+                                this.props.getCharacter(Object.keys(this.state.names).find(key => this.state.names[key] === name))} key={name}>
                             {name}
                             </button>
                         </div>
                     )})
+
                 }
                 <div className="col"></div>
 

@@ -20,6 +20,10 @@ class CharacterDataService {
         return axios.get(`${CHARACTER_API_URL}/${name}`)
     }
 
+    getCharacterById(id) {
+        return axios.get(`${CHARACTER_API_URL}/${id}`)
+    }
+
     deleteCharacter(id) {
         console.log('delete executed');
         return axios.delete(`${CHARACTER_API_URL}/${id}`)

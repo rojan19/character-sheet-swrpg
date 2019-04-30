@@ -25,7 +25,7 @@ export default class CharacterList extends Component {
                 this.setState({
                     message: "Deletion of character ${name} succeeded."
                 });
-                this.refreshCharacter();
+                this.getCharacter();
             }
         )
     }

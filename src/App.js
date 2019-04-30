@@ -13,7 +13,7 @@ class App extends Component {
         super(props);
         this.raiseStamina = this.raiseStamina.bind(this);
         this.lowerStamina = this.lowerStamina.bind(this);
-        this.refreshCharacter = this.refreshCharacter.bind(this);
+        this.getCharacter = this.getCharacter.bind(this);
 
         this.state = {
             name: "no-name",
@@ -34,18 +34,18 @@ class App extends Component {
         };
     }
 
-    refreshCharacter(characterName) {
-        CharacterDataService.getCharacterByName(characterName)
+    getCharacter(id) {
+        CharacterDataService.getCharacterById(id)
             .then(
                 response => {
                     console.log(response);
                     this.setState({
-                        name: response.data[0].username,
-                        maxStamina: response.data[0].stamina,
-                        currStamina: response.data[0].stamina,
-                        id: response.data[0].id,
-                        abilities: response.data[0].abilities,
-                        skills: response.data[0].skills
+                        name: response.data.username,
+                        maxStamina: response.data.stamina,
+                        currStamina: response.data.stamina,
+                        id: response.data.id,
+                        abilities: response.data.abilities,
+                        skills: response.data.skills
                     });
                 }
             )
@@ -75,7 +75,7 @@ class App extends Component {
                          raiseStamina={this.raiseStamina} lowerStamina={this.lowerStamina}/>
                 <Abilities abilities={this.state.abilities}/>
                 <Skills skills={this.state.skills} abilities={this.state.abilities}/>
-                <Loader getCharacter={this.refreshCharacter}/>
+                <Loader getCharacter={this.getCharacter}/>
             </div>
         );
     }

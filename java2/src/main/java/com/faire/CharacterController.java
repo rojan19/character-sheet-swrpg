@@ -1,7 +1,9 @@
 package com.faire;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,8 +13,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.faire.dao.CharacterSW;
-import com.faire.dao.DbObjectsService;
+import com.faire.model.CharacterDAO;
+import com.faire.model.CharacterRepository;
+import com.faire.model.CharacterSW;
+import com.faire.model.DbObjectsService;
 
 /**
  * Created by janda on 24.4.2019.
@@ -24,6 +28,9 @@ public class CharacterController {
 	@Autowired
 	private DbObjectsService dbObjectsService;
 
+	@Autowired
+	private CharacterRepository repository;
+
 	/*
 	@GetMapping("/")
 	public List<CharacterSW> getCharacterList() {
@@ -31,23 +38,32 @@ public class CharacterController {
 	}*/
 
 	@GetMapping("/all")
-	public List<CharacterSW> getAllCharacters() {
+	public List<CharacterDAO> getAllCharacters() {
+		return repository.findAll();
+	}
+
+	@GetMapping("/allold")
+	public List<CharacterSW> getAllCharactersOld() {
 		return dbObjectsService.findAll();
 	}
 
 	@GetMapping("/getNames")
-	public List<String> getAllNames(){
-		return dbObjectsService.getAllNames();
+	public Map<Long, String> getAllNames(){
+		List<CharacterDAO> characterList = repository.findAll();
+		Map<Long, String> result = new HashMap();
+		for (CharacterDAO characterDAO : characterList) {
+			result.put(characterDAO.getId(), characterDAO.getUsername());
+		}
+		return result;
 	}
 
-	@GetMapping("/{characterName}")
-	public List<CharacterSW> getCharacterByName(@PathVariable String characterName) {
-		CharacterSW characterSW = dbObjectsService.findByName(characterName);
-		List<CharacterSW> characterSWList = new ArrayList<>();
-		characterSWList.add(characterSW);
-		return characterSWList;
+	@GetMapping("/{id}")
+	public CharacterDAO getCharacter(@PathVariable Long id) {
+		CharacterDAO characterDAO = repository.getOne(id);
+		return characterDAO;
 	}
 
+	// todo prepsat na repository
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteCharacter(@PathVariable long id) {
 		CharacterSW character = dbObjectsService.deleteByCharacterId(id);
