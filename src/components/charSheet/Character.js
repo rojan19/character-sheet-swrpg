@@ -2,7 +2,8 @@
  * Created by janda on 25.4.2019.
  */
 import React, { Component } from 'react';
-import CharacterDataService from '../service/CharacterDataService'
+import CharacterDataService from '../../service/CharacterDataService'
+import {CharacterConsumer} from '../../providers/CharacterProvider'
 
 export default class CharacterList extends Component {
     constructor(props) {
@@ -34,7 +35,10 @@ export default class CharacterList extends Component {
         return (
             <div className="container">
                 {this.state.message && <div className="alert alert-success">{this.state.message}</div> }
-                <h3 className="display-4">Jméno postavy: {this.props.name}</h3>
+
+                <CharacterConsumer>
+                    {({name}) => <h3>{name}</h3>}
+                </CharacterConsumer>
                 {/*<h4><button className="btn btn-danger btn-sm" onClick={() =>
                     this.deleteCharacterClicked()}> DELETE </button></h4>*/}
             </div>

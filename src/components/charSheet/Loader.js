@@ -1,8 +1,8 @@
 /**
  * Created by janda on 26.4.2019.
  */
-import React, { Component } from 'react';
-import CharacterDataService from '../service/CharacterDataService';
+import React from 'react';
+import CharacterDataService from '../../service/CharacterDataService';
 
 export default class Loader extends React.Component {
     constructor(props) {
@@ -33,7 +33,7 @@ export default class Loader extends React.Component {
                 <div className="col"></div>
                 {
                     Object.values(this.state.names).map( (name) => {return(
-                        <div className="col-1">
+                        <div className="col-1" key={name}>
                             <button className="btn btn-info" onClick={() =>
                                 this.props.getCharacter(Object.keys(this.state.names).find(key => this.state.names[key] === name))} key={name}>
                             {name}

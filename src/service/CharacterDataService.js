@@ -5,8 +5,8 @@
 import axios from 'axios'
 
 const CHARACTER_API_URL = 'http://localhost:3030'
-const CHARACTERNAME_API_URL = '${CHARACTER_API_URL}/${CHARACTER}'
-//${CHARACTERNAME_API_URL}
+//const CHARACTERNAME_API_URL = '${CHARACTER_API_URL}/${CHARACTER}'
+
 class CharacterDataService {
     getAllCharacters() {
         return axios.get(`${CHARACTER_API_URL}/all`);

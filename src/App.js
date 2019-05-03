@@ -1,12 +1,10 @@
-import React, {Component} from 'react';
-import './App.css';
-import Stamina from "./components/Stamina"
-import Abilities from "./components/Abilities";
-import Skills from "./components/Skills";
-import Character from "./components/Character"
-import Loader from "./components/Loader"
-import CharacterDataService from './service/CharacterDataService'
-
+import React, {Component} from "react";
+import "./App.css";
+import {BrowserRouter as Router, Link, Redirect, Route} from "react-router-dom";
+import Sheet from "./components/Sheet";
+import Edit from "./components/Edit";
+import Test from "./components/Test"
+import CharacterDataService from "./service/CharacterDataService";
 
 class App extends Component {
     constructor(props) {
@@ -16,23 +14,10 @@ class App extends Component {
         this.getCharacter = this.getCharacter.bind(this);
 
         this.state = {
-            name: "no-name",
-            id: "999",
-            currStamina: 0,
-            maxStamina: 0,
-
-            abilities: {
-                "bra": 0,
-                "agi": 0,
-                "int": 0,
-                "cun": 0,
-                "will": 0,
-                "pre": 0
-            },
-
-            skills: [],
+            toCharSheet: false,
         };
     }
+
 
     getCharacter(id) {
         CharacterDataService.getCharacterById(id)
@@ -67,18 +52,36 @@ class App extends Component {
         }
     }
 
+    handleImgClick() {
+       this.setState( () => ({
+           toCharSheet: true,
+       }))
+    }
+
     render() {
+        if (this.state.toCharSheet === true) {
+            return (
+                <Router>
+                <Redirect to="/components/sheet" />
+                </Router>)
+        }
         return (
             <div className="App container-fluid">
-                <Character name={this.state.name} />
-                <Stamina currStamina={this.state.currStamina} maxStamina={this.state.maxStamina}
-                         raiseStamina={this.raiseStamina} lowerStamina={this.lowerStamina}/>
-                <Abilities abilities={this.state.abilities}/>
-                <Skills skills={this.state.skills} abilities={this.state.abilities}/>
-                <Loader getCharacter={this.getCharacter}/>
+                <Router>
+                    <div>
+                       <Link to="/new">New Character</Link>
+                       <Link to="/char">Edit</Link>
+                        <Route exact path="/new" component={Sheet} />
+                        <Route path="/char" component={Edit} />
+                        <Route path="/sheet" component={Test} />
+                    </div>
+
+                </Router>
+
             </div>
         );
     }
 }
+
 
 export default App;
